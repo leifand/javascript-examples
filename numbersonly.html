@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--  numbersonly.html
+      Leif Anderson 6/30/17
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Numbers Only</title>
+    <script type="text/javascript">
+
+      function numbersOnly(arrayIn) {
+        var arrayOut = [];
+        for (var i=0; i < arrayIn.length; i++)
+          if (typeof(arrayIn[i]) === "number")
+            arrayOut.push(arrayIn[i]);
+        return arrayOut;
+      }
+
+      function xnumbersOnly(arrayRef) {
+        for (var i=0; i < arrayRef.length; i++)
+          if (typeof(arrayRef[i]) === "number");
+          else {
+            arrayRef.splice(i,1);
+            i--;
+          }
+      }
+
+      function test() {
+        var array1 = [-10, 0, 1, 2, 0.009, 100000];
+        var array2 = [1, 'a', [1, 2], 3, "string", 4];
+        numbersOnly(array1);
+        console.log(array1);
+        numbersOnly(array2);
+        console.log(array2);
+        xnumbersOnly(array1);
+        console.log(array1);
+        xnumbersOnly(array2);
+        console.log(array2);
+      }
+
+    </script>
+  </head>
+</html>

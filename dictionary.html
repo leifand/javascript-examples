@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--  dictionary.html
+      Leif Anderson 7/1/17
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Dictionary</title>
+    <script type="text/javascript">
+
+      var dojo = {
+        'Ninjas': [
+          {fname: 'Blaze', lname: 'Hayes'},
+          {fname: 'Master', lname: 'Chief'},
+          {fname: 'Steve', lname: 'Jobs'},
+          {fname: 'Bill', lname: 'Gates'}
+        ],
+        'Sensei': [
+          {fname: 'The', lname: 'Authman'},
+          {fname: 'Socrates', lname: 'Athens'}
+        ]
+      }
+
+      function printGroups(groups) {
+        for (grp in groups) {
+          console.log(grp);
+          for (var i=0; i < dojo[grp].length; i++)
+            console.log(dojo[grp][i]['fname'] + ' ' +
+                        dojo[grp][i]['lname'] + ' - ' +
+                        (dojo[grp][i]['fname'].length +
+                        dojo[grp][i]['lname'].length));
+        }
+      }
+
+      function test() {
+        console.log(dojo['Ninjas'].length);
+        console.log(dojo['Ninjas'][0]['fname']);
+        console.log(dojo['Ninjas'][0]['fname'].length);
+        console.log(dojo['Sensei'].length);
+      }
+
+    </script>
+  </head>
+</html>
