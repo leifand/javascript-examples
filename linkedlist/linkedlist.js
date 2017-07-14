@@ -31,6 +31,9 @@ function SList() {
   // contains(Node)
   // insertAt(precNode, Node)
   // remove(Node)
+  // removeNegVals()
+  // secondMax()
+  // printList()
   //
   // ... here be dragons ... :)
   //
@@ -80,6 +83,10 @@ function SList() {
     return currMax;
   }
 
+  this.secondMax = function() {
+    return this;
+  }
+
   this.contains = function(node) {
     var contains = false;
     if (this.head == null)
@@ -102,6 +109,34 @@ function SList() {
   this.remove = function(val) {
     return false;
   }
+
+  this.removeNegs = function() { // doesn't capture all negatives in test
+    if (!this.head)
+      return false;
+
+    while (this.head && this.head.val < 0) {
+      this.head = this.head.next;
+    var currNode = this.head;
+    if (currNode)
+      while (currNode.next)
+        if (currNode.next.val < 0)
+          currNode.next = currNode.next.next;
+        else
+          currNode = currNode.next;
+    return this;
+    }
+  }
+
+  this.getVals = function() {
+    if (!this.head) return '';
+    var currNode = this.head;
+    var vals = [];
+    while (currNode) {
+      vals.push(currNode.val);
+      currNode = currNode.next;
+    }
+    return vals;
+  }
 }
 
   x = new Node(1);
@@ -117,3 +152,13 @@ function SList() {
 
   z = new Node(2);
   console.log(l.contains(z));
+
+  a = new Node(-2);
+  b = new Node(-3);
+
+  l.addFront(a);
+  l.addFront(b);
+
+  console.log(l.getVals());
+  l.removeNegs();
+  console.log(l.getVals());
