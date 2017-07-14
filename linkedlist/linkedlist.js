@@ -86,10 +86,11 @@ function SList() {
       return contains;
     var currNode = this.head;
     while(currNode) {
-      if (currNode.val == node.Val) {
+      if (currNode.val == node.val) {
         contains = true;
         break;
       }
+      currNode = currNode.next;
     }
     return contains;
   }
@@ -115,4 +116,4 @@ function SList() {
   //console.log(l.max());
 
   z = new Node(2);
-  //console.log(l.contains(z)); crashes chrome!!! (infintie loop)
+  console.log(l.contains(z));
