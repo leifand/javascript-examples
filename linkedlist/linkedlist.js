@@ -1,34 +1,33 @@
 /*
-  linkedlist.js
-  Leif Anderson 7/31/17
+  slist.js
+  Leif Anderson 8/10/17
 */
 
-// Node - helper class to LinkedList
+// Node - helper class to SList
 //
 function Node(val) {
   this.val = val;
   this.next = null;
 }
 
-// LinkedList - here be dragons ...
+// Singly Linked List - here be dragons ...
 //
-function LinkedList() {
+function SList() {
   this.head = null;
-  this.rear = null;
 }
-LinkedList.prototype.addFront = function(val) {
+SList.prototype.addFront = function(val) {
   node = new Node(val);
   node.next = this.head;
     this.head = node;
     return this;
 }
-LinkedList.prototype.removeFront = function() {
+SList.prototype.removeFront = function() {
   if(this.head == null) return null;
   ret_node = this.head;
   this.head = this.head.next;
   return ret_node;
 }
-LinkedList.prototype.addBack = function(val) {
+SList.prototype.addBack = function(val) {
   node = new Node(val);
   if(this.head == null) {
     this.head = node;
@@ -41,14 +40,14 @@ LinkedList.prototype.addBack = function(val) {
       node_ptr = node_ptr.next;}
   return this;
 }
-LinkedList.prototype.removeBack = function() {
+SList.prototype.removeBack = function() {
   if(this.head == null) return null;
   node_ptr = this.head;
   while(node_ptr) {
     if(node_ptr.next == null) return node_ptr;
     node_ptr = node_ptr.next;}
 }
-LinkedList.prototype.listLength = function() {
+SList.prototype.listLength = function() {
   length = 0;
   node_ptr = this.head;
   while(node_ptr){
@@ -56,7 +55,7 @@ LinkedList.prototype.listLength = function() {
     length++;}
   return length;
 }
-LinkedList.prototype.max = function() {
+SList.prototype.max = function() {
   if(this.head == null) return null;
   max = this.head.val;
   node_ptr = this.head.next;
@@ -65,17 +64,39 @@ LinkedList.prototype.max = function() {
     node_ptr = node_ptr.next;}
   return max;
 }
-LinkedList.prototype.listContains = function(val) {
+SList.prototype.listContains = function(val) {
   node_ptr = this.head;
   while(node_ptr) {
     if(node_ptr.val == val) return true;
     node_ptr = node_ptr.next;}
   return false;
 }
-LinkedList.prototype.getVals = function() {
+SList.prototype.reverse = function() {
+  tail_ptr = null;
+  node_ptr = this.head;
+  while(node_ptr){
+    if(node_ptr.next){
+      // swap next to preceding node
+      temp_ptr = node_ptr;
+      temp_ptr.next = node_ptr;
+      node_ptr = node_ptr.next;
+    }
+    else { // found the tail
+      tail_ptr = node_ptr;
+      node_ptr = node_ptr.next;
+    }
+
+  }
+  this.head = tail_ptr;
+}
+SList.prototype.emptyList = function() {
+  this.head = null;
+}
+SList.prototype.getVals = function() {
   vals = [];
   node_ptr = this.head;
-  while(node_ptr) {
-    vals.push(node_ptr.val);}
+  while(node_ptr){
+    vals.push(node_ptr.val);
+    node_ptr = node_ptr.next;}
   return vals;
 }
