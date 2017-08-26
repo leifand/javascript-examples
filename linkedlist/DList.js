@@ -3,36 +3,63 @@
   Leif Anderson 8/10/17
 */
 
-// Node - helper class to SList
+// Node
 //
 function Node(val) {
   this.val = val;
   this.prev = null;
   this.next = null;
 }
-// Double Linked List - here be dragons ...
+// Double Linked List
 //
 function DList() {
   this.head = null;
   this.tail = null;
-  this.length = 0;
+  this.len = 0;
 }
-DList.prototype.push = function(val) {
+DList.prototype.pushFront = function(val) {
   node = new Node(val);
-  node.next = this.head;
+  if(!this.head) {
     this.head = node;
-    this.length++;
-    return this;
+    this.tail = node;
+  }
+
+  node.next = this.head;
+  this.head.prev = 
+  this.head = node;
+
+  this.len++;
+  return node;
 }
-DList.prototype.pop = function() {
-  /*if(this.head == null) return null;
+DList.prototype.popFront = function() {
+  if(this.head == null) return null;
+  if(this.head.next == null) this.tail = null;
   ret_node = this.head;
-  this.head = this.head.next;*/
-  this.length--;
+  this.head = this.head.next;
+  this.head.prev = null;
+  this.len--;
   return ret_node;
 }
+DList.prototype.pushRear = function(val) {
+  node = new Node(val);
+  if(this.len == 0) {
+    this.head = node;
+    this.tail = node;}
+  else {
+    node.prev = tail;
+    tail = node;}
+  this.len++;
+  return this;
+}
+DList.prototype.popRear = function() {
+  /*if(this.head == null) return null;
+  ret_node = this.head;
+  this.head = this.head.next;
+  this.len--;
+  return ret_node;*/
+}
 DList.prototype.listLength = function() {
-  return this.length;
+  return this.len;
 }
 DList.prototype.max = function() {
   if(this.head == null) return null;
@@ -54,6 +81,9 @@ DList.prototype.emptyList = function() {
   this.head = null;
   this.tail = null;
   this.length = 0;
+}
+DList.prototype.isValid = function () {
+
 }
 DList.prototype.getVals = function() {
   vals = [];
