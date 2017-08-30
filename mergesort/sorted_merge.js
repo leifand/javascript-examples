@@ -36,9 +36,9 @@ function merge_sort(arr) {
   }
 }
 
-function test_merge_sort() {
+function test_merge_sort(arr_size) {
   test_array = [];
-  for (var i=0; i<1000000; i++) test_array[i] = Math.round(1 + (Math.random() * (1000000 - 1)));
+  for (var i=0; i<arr_size; i++) test_array[i] = Math.round(1 + (Math.random() * (arr_size - 1)));
   var start_time = Date.now()/1000;
   var ret = merge_sort(test_array);
   var end_time = Date.now()/1000;
