@@ -4,24 +4,29 @@
 // arr1 and arr2 are sorted
 //
 function merge (arr1, arr2) {
+  var ret_array = [];
   var len1 = arr1.length;
   var len2 = arr2.length;
   var index1 = 0;
   var index2 = 0;
   while (index1 < len1 && index2 < len2) {
-    if (arr1[index1] < arr2[index2]) index1++;
-    else { // grow arr1 and increment counters
-      arr1.splice(index1, 0, arr2[index2]);
+    if (arr1[index1] < arr2[index2]) {
+      ret_array.push(arr1[index1]);
       index1++;
-      len1++;
+    }
+    else { // grow arr1 and increment counters
+      ret_array.push(arr2[index2]);
+      //arr1.splice(index1, 0, arr2[index2]);
+      //index1++;
+      //len1++;
       index2++;
     }
   }
   while (index2 < len2) {  // append any remaining elements from arr2
-    arr1.push(arr2[index2]);
+    ret_array.push(arr2[index2]);
     index2++;
   }
-  return arr1;
+  return ret_array;
 }
 
 // the classic! O(n log n)
@@ -40,7 +45,11 @@ function test_merge_sort(arr_size) {
   test_array = [];
   for (var i=0; i<arr_size; i++) test_array[i] = Math.round(1 + (Math.random() * (arr_size - 1)));
   var start_time = Date.now()/1000;
+  console.time('x');
+
   var ret = merge_sort(test_array);
+  console.timeEnd('x');
+
   var end_time = Date.now()/1000;
   console.log(end_time - start_time);
   return ret;
@@ -82,8 +91,13 @@ function test_merge3() { // arrays share values
   for (var i=0; i<200000; i++) array1[i] = i;
   for (var j=0; j<200000; j++) array2[j] = j + 1;
   var start_time = Date.now()/1000;
+  console.time('x');
   ret = merge(array1, array2);
+  console.timeEnd('x');
   var end_time = Date.now()/1000;
   console.log(end_time - start_time);
   return ret;
 }
+
+//test_merge_sort(100000);
+test_merge_sort(100000000);

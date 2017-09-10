@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Space Invaders</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- HTML -->
+    <div id="background">
+      <div id="hero"></div>
+      <div id="missiles"></div>
+      <div id="enemies"></div>
+    </div>
+
+<script>
+        // where is the hero
+        var hero = {
+          left: 575,
+          top: 700
+        }
+
+        var missiles = [];
+
+        var enemies = [
+            {left: 100, top: 100},
+            {left: 200, top: 100},
+            {left: 300, top: 100},
+            {left: 400, top: 100},
+            {left: 500, top: 100},
+            {left: 600, top: 100},
+            {left: 700, top: 100},
+            {left: 800, top: 100},
+            {left: 100, top: 175},
+            {left: 200, top: 175},
+            {left: 300, top: 175},
+            {left: 400, top: 175},
+            {left: 500, top: 175},
+            {left: 600, top: 175},
+            {left: 700, top: 175},
+            {left: 800, top: 175},
+        ]
+
+        document.onkeydown = function(e){
+          console.log(e);
+          // EXTRA CREDIT: move hero left, right, up and down
+          if(e.keyCode == 37){
+            console.log('move hero left');
+            console.log(hero.left);
+            hero.left = hero.left - 10;
+            displayHero();
+            console.log(hero.left);
+          } else if(e.keyCode ==39){
+            hero.left = hero.left + 10;
+            displayHero();
+            console.log('move hero right');
+          } else if(e.keyCode == 32){
+            console.log('shooting missile');
+            missiles.push({top: hero.top - 10, left: hero.left + 20});
+            displayMissile();
+          }
+        }
+
+        // move the missiles on the page
+        function moveMissiles(){
+          for(var missile = 0; missile < missiles.length; missile++){
+            missiles[missile].top -= 10
+          }
+        }
+
+        // put missile on the page
+        function displayMissile(){
+          var missile_builder = "";
+          for(var missile = 0; missile < missiles.length; missile++){
+            missile_builder += `<div class='missiles' style='top:${missiles[missile].top}px; left:${missiles[missile].left}px;'></div>`
+          }
+          document.getElementById('missiles').innerHTML = missile_builder;
+        }
+
+        // displays enemies on the page
+        function displayEnemies(){
+          var enemy_builder = "";
+          for(var enemy = 0; enemy < enemies.length; enemy++){
+            enemy_builder += `<div class='enemy' style='top:${enemies[enemy].top}px; left:${enemies[enemy].left}px'></div>`;
+          }
+          document.getElementById('enemies').innerHTML = enemy_builder;
+        }
+
+        // loop through the enemies array, and update the top properity to move the enemies
+        function moveEnemies(){
+          for(var enemy = 0; enemy < enemies.length; enemy++){
+            enemies[enemy].top += 10;
+          }
+          // EXTRA CREDIT: move enemies left and right
+        }
+
+        // detect while a missile hits an enemy
+        function collisionDetection(){
+          for(var enemy = 0; enemy < enemies.length; enemy++){
+            for(var missile = 0; missile < missiles.length; missile++){
+              if(enemies[enemy].top <= missiles[missile].top && enemies[enemy].top + 50 >= missiles[missile].top + 16 && enemies[enemy].left <= missiles[missile].left && enemies[enemy].left + 50 >= missiles[missile].left + 10){
+                console.log('hit');
+                enemies.splice(enemy, 1);
+                missiles.splice(missile, 1);
+                // EXTRA CREDIT: keep track of the score
+              }
+            }
+          }
+        }
+
+        // set up a game loop, to run at a set interval
+        function gameLoop(){
+          setTimeout(gameLoop, 200);
+          moveMissiles();
+          displayMissile();
+          moveEnemies();
+          displayEnemies();
+          collisionDetection();
+        }
+
+        gameLoop();
+
+
+        // update where hero is on the board
+        function displayHero(){
+          document.getElementById('hero').style.left = hero.left + 'px';
+
+        }
+
+    </script>
+</html>

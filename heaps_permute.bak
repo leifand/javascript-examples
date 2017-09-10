@@ -1,0 +1,72 @@
+/*  heaps_permute.js
+    leif anderson 9/9/17
+*/
+
+// swap
+//
+function swap(arr, x, y) {
+  let temp = arr[x];
+  arr[x] = arr[y];
+  arr[y] = temp;
+}
+
+// generate a closure to serve as a memo to capture permutations
+//
+function memo_array_old(n) {
+  let permutations = [];
+  let p_length = n;
+  let f = function(in_string, gen_array = false) {
+    if (!gen_array) {
+      if (in_string.length == p_length)
+        permutations.push(in_string);
+    }
+    else return permutations;
+  }
+  return f;
+}
+
+// heaps permutation:
+// generate all possible permutations of arr
+// where n is arr length
+//
+function generate_permutations(n, x, arr, memo) {
+  if(n == 1) {
+    let out_string = '';
+    for(let a = 0; a < arr.length; a++) {
+      out_string += arr[a];
+      if (x == arr.length) console.log(out_string);
+
+    }
+  }
+  else {
+    for(let i = 0; i < n - 1; i++) {
+      generate_permutations(n - 1, x, arr, memo);
+      if(n % 2 == 0) swap(arr, i, n - 1);
+      else swap(arr, 0, n - 1);
+    } // end for
+    generate_permutations(n - 1, x, arr, memo)
+  }
+}
+
+// heaps permutation
+//
+function heaps_permute(arr) {
+  var n = arr.length;
+  var x = arr.length;
+  var memo = null;
+  generate_permutations(n, x, arr, memo);
+  return memo;
+}
+
+
+
+x = ['a', 'b', 'x', 'y'];
+console.log('starting array:')
+console.log(x);
+console.log('>>>>>>>>>>>>>>>>>');
+heaps_permute(x);
+//generate_permutations(x.length, x);
+console.log('<<<<<<<<<<<<<<<<<');
+
+//m = memo_dict(4);
+//console.log(m);
