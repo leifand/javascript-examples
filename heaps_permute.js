@@ -43,8 +43,13 @@ function heaps_permute(arr) {
 // test
 //
 x = ['a', 'b', 'c'];
+//x = [1,2,3];
+//x = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+// x = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k'];
 console.log('starting array:');
 console.log(x);
+console.time('runtime');
 var perms = heaps_permute(x); // returns an array of all permutations of x
+console.timeEnd('runtime');
 console.log(perms);
 console.log(x.length + '! = ' + perms.length + ' permutations');
