@@ -5,7 +5,6 @@
 
 class MinHeap {
   constructor() {
-    // a minheap never stores a value at it's root
     this.heap_array = ['#'];
   }
 
@@ -29,4 +28,7 @@ function test_minheap(array_size) {
   return test_heap;
 }
 
-x = test_minheap(50000000);
+x = test_minheap(20);
+console.log(x);
+//x = test_minheap(50000000);
+// 50 million takes 1800 ms on my machine, dumps core around 55,000,000 numbers :)
