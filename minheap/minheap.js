@@ -31,4 +31,4 @@ function test_minheap(array_size) {
 x = test_minheap(20);
 console.log(x);
 //x = test_minheap(50000000);
-// 50 million takes 1800 ms on my machine, dumps core around 55,000,000 numbers :)
+// 50 million takes ~1800 ms on my machine, dumps core around 55000000
