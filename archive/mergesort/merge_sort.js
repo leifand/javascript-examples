@@ -44,14 +44,11 @@ function merge_sort(arr) {
 function test_merge_sort(arr_size) {
   test_array = [];
   for (var i=0; i<arr_size; i++) test_array[i] = Math.round(1 + (Math.random() * (arr_size - 1)));
-  var start_time = Date.now()/1000;
-  console.time('x');
+  console.time('test');
 
   var ret = merge_sort(test_array);
-  console.timeEnd('x');
+  console.timeEnd('test');
 
-  var end_time = Date.now()/1000;
-  console.log(end_time - start_time);
   return ret;
 }
 
@@ -100,4 +97,5 @@ function test_merge3() { // arrays share values
 }
 
 //test_merge_sort(100000);
-test_merge_sort(100000000);
+sorted_array = test_merge_sort(50000000);
+console.log(sorted_array);
