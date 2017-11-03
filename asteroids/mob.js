@@ -7,15 +7,19 @@ const BBox = require('./bbox.js').BBox;
 
 class MOB { // defines a polygon
   constructor(bounding_box, mob_color) {
-    this.xpoints = [];
-    this.ypoints = [];
+    this.dx = [];
+    this.dy = [];
     this.vector_length = 0;
-    this.bounding_box = bounding_box;
+    this.min_x = bounding_box.min_x;
+    this.min_y = bounding_box.min_y;
+    this.max_x = bounding_box.max_x;
+    this.max_y = bounding_box.max_y;
     this.mob_color = mob_color;
     this.velocity = 0.0;
     this.direction_inc = 0.0;
     this.cos = 0.0;
     this.sin = 0.0;
+    this.dead = false;
   }
   draw() {
   }
@@ -24,14 +28,21 @@ class MOB { // defines a polygon
   collide(mob) {
   }
   die() {
+    this.dead = true;
+    this.min_x = this.display_w + 1;
+    this.min_y = this.display_h + 1;
+    this.max_x = this.min_x + 1;
+    this.max_y = this.min_y + 1;
+    this.doneMinMax();
   }
   isDead() {
+    return this.dead;
   }
   getBoundingBox() {
   }
-  setShape(xpoints, ypoints) {
-    this.xpoints = xpoints;
-    this.ypoints = ypoints;
+  setShape(dx, dy) {
+    this.dx = dx;
+    this.dy = dy;
   }
   setVelocity(velocity) {
     this.velocity = velocity;
@@ -44,21 +55,33 @@ class MOB { // defines a polygon
   }
   scale(factor) {
     for(let i = 0; i < this.vector_length; i++) {
-      this.xpoints[i] *= factor;
-      this.ypoints[i] *= factor;
+      this.dx[i] *= factor;
+      this.dy[i] *= factor;
     }
   }
   translate(x, y) {
     for(let i = 0; i < this.vector_length; i++) {
-      this.xpoints[i] += x;
-      this.ypoints[i] += y;
+      this.dx[i] += x;
+      this.dy[i] += y;
     }
   }
   rotateMOB() {
+    if (this.isDead()) return;
+    //low_x =
+    //low_y =
+    for (let v = 0; v < this.vector_length; v++) {
+      t1 = this.dx[v] * this.cos + dy[v] * this.sin;
+      t2 = this.dy[v] * this.cos - dx[v] * this.sin;
+      dx[v] = t1;
+      dy[v] = t2;
+      // here be dragons ... how accurate/efficient is js floating point? ><
+    }
   }
   moveMOB() {
   }
   calculateBoundingBox() {
+  }
+  doneMinMax(){
   }
   //checkBounce() {}
 }
