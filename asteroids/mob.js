@@ -17,9 +17,16 @@ class MOB { // defines a polygon
     this.mob_color = mob_color;
     this.velocity = 0.0;
     this.direction_inc = 0.0;
+    this.angle = 0.0; // radians
     this.cos = 0.0;
     this.sin = 0.0;
     this.dead = false;
+    this.display_w = 0;
+    this.display_h = 0;
+  }
+  setDisplay(width, height) {
+    this.display_w = width;
+    this.display_h = height;
   }
   draw() {
   }
@@ -47,11 +54,11 @@ class MOB { // defines a polygon
   setVelocity(velocity) {
     this.velocity = velocity;
   }
-  setRotationAngle(angle) {
-    angle *= Math.PI / 180;
+  setRotationAngle() {
+    this.angle *= Math.PI / 180;
     this.cos = Math.cos(angle);
     this.sin = Math.sin(angle);
-    direction_inc = angle;
+    this.direction_inc = this.angle;
   }
   scale(factor) {
     for(let i = 0; i < this.vector_length; i++) {
