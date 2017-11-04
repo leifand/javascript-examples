@@ -49,8 +49,8 @@ class MOB { // defines a polygon
   }
   setRotationAngle(angle) {
     angle *= Math.PI / 180;
-    cos = Math.cos(angle);
-    sin = Math.sin(angle);
+    this.cos = Math.cos(angle);
+    this.sin = Math.sin(angle);
     direction_inc = angle;
   }
   scale(factor) {
@@ -67,14 +67,16 @@ class MOB { // defines a polygon
   }
   rotateMOB() {
     if (this.isDead()) return;
+    let t1 = 0.0;
+    let t2 = 0.0;
+    // here be dragons ... need to manage floating point precision
     //low_x =
     //low_y =
     for (let v = 0; v < this.vector_length; v++) {
-      t1 = this.dx[v] * this.cos + dy[v] * this.sin;
-      t2 = this.dy[v] * this.cos - dx[v] * this.sin;
-      dx[v] = t1;
-      dy[v] = t2;
-      // here be dragons ... how accurate/efficient is js floating point? ><
+      t1 = this.dx[v] * this.cos + this.dy[v] * this.sin;
+      t2 = this.dy[v] * this.cos - this.dx[v] * this.sin;
+      this.dx[v] = t1;
+      this.dy[v] = t2;
     }
   }
   moveMOB() {
