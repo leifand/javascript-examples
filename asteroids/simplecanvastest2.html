@@ -9,11 +9,14 @@
 
 
     <script type="text/javascript">
+
+      //globals
+      //
       var x = 150;
       var y = 150;
       var dx = 2;
       var dy = 4;
-      var gc;  
+      var gc;
       var WIDTH = 300;
       var HEIGHT = 600;
       var paddlex = WIDTH / 2;
@@ -35,6 +38,8 @@
         document.onkeydown = onKeyDown;
         document.onkeyup = onKeyUp;
 
+        // gc - the Graphics Context, gives access to canvas 2d api
+        //
       	gc = document.getElementById("canvas").getContext("2d");
           intervalId = setInterval(draw, 10); // calls draw every 10ms
       }
@@ -70,6 +75,10 @@
       }
 
 
+      // draw() is executed every 10ms ... effectively this is the game loop
+      // a proper game loop can be built using requestAnimationFrame(draw) where
+      // draw is a callback. The asteroids engine will use this newer approach.
+      //
       function draw() {
         clear();
         circle(x, y, 10);
