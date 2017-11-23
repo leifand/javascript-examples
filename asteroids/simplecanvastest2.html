@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Canvas</title>
+    <style type="text/css">
+      canvas { border: 1px solid black; }
+    </style>
+
+
+    <script type="text/javascript">
+      var x = 150;
+      var y = 150;
+      var dx = 2;
+      var dy = 4;
+      var gc;  
+      var WIDTH = 300;
+      var HEIGHT = 600;
+      var paddlex = WIDTH / 2;
+      var paddleh = 10;
+      var paddlew = 75;
+      var intervalId;
+      var bricks;
+      var NROWS = 5;
+      var NCOLS = 5;
+      var BRICKWIDTH = (WIDTH/NCOLS) - 1;
+      var BRICKHEIGHT = 15;
+      var PADDING = 1;
+
+      var rightDown = false;
+      var leftDown = false;
+
+
+      window.onload = function(){
+        document.onkeydown = onKeyDown;
+        document.onkeyup = onKeyUp;
+
+      	gc = document.getElementById("canvas").getContext("2d");
+          intervalId = setInterval(draw, 10); // calls draw every 10ms
+      }
+
+      function circle(x,y,r) {
+        gc.beginPath();
+        gc.arc(x, y, r, 0, Math.PI*2, true);
+        gc.closePath();
+        gc.fill();
+      }
+
+      function rect(x,y,w,h) {
+        gc.beginPath();
+        gc.rect(x,y,w,h);
+        gc.closePath();
+        gc.fill();
+      }
+
+      function clear() {
+        gc.clearRect(0, 0, WIDTH, HEIGHT);
+      }
+
+      //set rightDown or leftDown if the right or left keys are down
+      function onKeyDown(evt) {
+        if (evt.keyCode == 39) rightDown = true;
+        else if (evt.keyCode == 37) leftDown = true;
+      }
+
+      //and unset them when the right or left key is released
+      function onKeyUp(evt) {
+        if (evt.keyCode == 39) rightDown = false;
+        else if (evt.keyCode == 37) leftDown = false;
+      }
+
+
+      function draw() {
+        clear();
+        circle(x, y, 10);
+
+        //move the paddle if left or right is currently pressed
+        if (rightDown) paddlex += 5;
+        else if (leftDown) paddlex -= 5;
+        rect(paddlex, HEIGHT-paddleh, paddlew, paddleh);
+
+        if (x + dx > WIDTH || x + dx < 0)
+          dx = -dx;
+
+        if (y + dy < 0)
+          dy = -dy;
+        else if (y + dy > HEIGHT) {
+          if (x > paddlex && x < paddlex + paddlew)
+            dy = -dy;
+          else
+            clearInterval(intervalId);
+        }
+
+        x += dx;
+        y += dy;
+      };
+    </script>
+
+</head>
+<body>
+
+<canvas id="canvas" width="300" height="600"></canvas><br>
+</body></html>
