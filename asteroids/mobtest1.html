@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>MOB test 1</title>
+    <style type="text/css">
+      canvas { border: 1px solid black; }
+    </style>
+    <script type="text/javascript">
+
+    // globals
+    //
+    var px = [0, 32, 28, 20, 12, 4]; // x-points for test polygon
+    var py = [0, 8, 16, 20, 16, 24]; // y-points ...
+    var arr_len = 6;
+
+    // globals for testing rotate()
+    //
+    var angle = Math.PI/180; // radians
+    var cos = Math.cos(angle);
+    var sin = Math.sin(angle);
+
+    // gc : graphics context - access to Canvas graphics api.
+    //
+    var gc = null;
+
+    // IntervalId - Used to call draw() repeatedly (poor mans game loop).
+    // Using window.requestAnimationFrame(draw) would be preferable to create
+    // a better game loop, but may still be browser specific ...
+    //
+    var intervalId = null;
+
+    window.onload = function(){
+
+      gc = document.getElementById("canvas").getContext("2d");
+      intervalId = setInterval(draw, 100); // call draw every 100ms
+    };
+
+    function mob() {
+      gc.beginPath();
+      for (let i = 0; i < arr_len; i++) {
+        gc.lineTo(px[i], py[i]);
+      }
+      gc.closePath();
+      gc.stroke();
+    };
+
+    function translate(dx, dy) {
+      for (let i = 0; i < arr_len; i++) {
+        px[i] += dx;
+        py[i] += dy;
+      }
+    };
+
+    function rotate() {
+      let t1 = null;
+      let t2 = null;
+      for (let i = 0; i < arr_len; i++) {
+        t1 = px[i] * cos + py[i] * sin;
+        t2 = py[i] * cos - px[i] * sin;
+        px[i] = t1;
+        py[i] = t2;
+      }
+    };
+
+    function draw() {
+      mob();
+      translate(5, 5);
+      rotate();
+    };
+    </script>
+</head>
+<body>
+<canvas id="canvas" width="600" height="300">
+  <strong>a canvas-supporting browser is required</strong>
+</canvas><br>
+</body></html>
