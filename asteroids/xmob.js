@@ -4,6 +4,7 @@
 */
 
 //const BBox = require('./bbox.js').BBox;
+console.log("LOADING XMOB ....");
 
 class XMOB { // defines a polygon
   constructor(bounding_box, mob_color) {
@@ -88,3 +89,4 @@ class XMOB { // defines a polygon
   //checkBounce() {};
 };
 //export.XMOB = XMOB;
+console.log(".... DONE");

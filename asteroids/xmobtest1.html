@@ -7,7 +7,7 @@
     <style type="text/css">
       canvas { border: 1px solid black; }
     </style>
-    <script type="text/javascript" src="xmob.js">
+    <script type="text/javascript" src="xmob.js"/>
     <script type="text/javascript">
 
     // globals
@@ -24,10 +24,6 @@
     // a better game loop, but may still be browser specific ...
     //
     var intervalId = null;
-    window.onload = function(){
-      gc = document.getElementById("canvas").getContext("2d");
-      intervalId = setInterval(draw, 100); // call draw every 100ms
-    };
 
     function mobs() {
       let curr_mob = null;
@@ -38,15 +34,34 @@
           gc.lineTo(curr_mob.px[j], curr_mob.py[j]);
         }
         gc.closePath();
-        //gc.stroke();
+        gc.stroke();
       }
-      gc.stroke();
+      //gc.stroke();
     };
+
+    function loadMobs() {
+      console.log("Entering load mobs");
+      let tempx = [0, 32, 28, 20, 12, 4];
+      let tempy = [0, 8, 16, 20, 16, 24];
+      let tempMob = new XMOB(null, null);
+      tempMob.setShape(tempx, tempy);
+      mobs_arr.push(tempMob);
+      arr_len = 1;
+      console.log(mobs_arr);
+    }
 
     function draw() {
       mobs();
     };
 
+    window.onload = function(){
+      console.log("ON LOAD ....");
+      loadMobs();
+      gc = document.getElementById("canvas").getContext("2d");
+      intervalId = setInterval(draw, 100); // call draw every 100ms
+      console.log(".... DONE");
+    };
+    
     </script>
   </head>
 
