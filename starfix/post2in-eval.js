@@ -6,7 +6,7 @@ leif anderson 12/12/17
 Pre, Post and Infix parsing is a fun subject. Here is a straightforward
 method of evaluating a postfix expression and converting it to infix.
 
-Initially chose arrays to track sytmbols, not clear if this was a good choice!
+Initially chose arrays to track symbols, not clear if this was a good choice!
 
 */
 
@@ -14,7 +14,7 @@ Initially chose arrays to track sytmbols, not clear if this was a good choice!
 //
 const validOperands = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 const validOperators = ['+', '-', '*', '/', ' '];
-const validOther = [' '];
+const validOther = [' ', '(', ')'];
 const strStack = [];
 const intStack = [];
 
@@ -115,6 +115,7 @@ function parenthesis(exp1, exp2, operator) {
     return pstr;
 } 
 
+//function 
 
 var x = ['3', '2', '+'];
 console.log(isValid(x[0]));
