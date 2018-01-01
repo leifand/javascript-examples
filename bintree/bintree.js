@@ -1,6 +1,6 @@
 /*
   bst.js
-  leif anderson 9/15/17
+  leif anderson 12/31/17
 */
 
 // Binary Tree
@@ -11,6 +11,18 @@ class BinTree {
     this.val = value;
     this.left = null;
     this.right = null;
+  }
+
+  root_value() {
+    return this.val;
+  }
+
+  left_child() {
+    return this.left;
+  }
+
+  right_child() {
+    return this.right;
   }
 
   // process_node is a function that determines where
