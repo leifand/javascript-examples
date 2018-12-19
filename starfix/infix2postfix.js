@@ -68,7 +68,7 @@ infix2postfix.evaluate = (expression) => {
 
 x = ['a','+','44444444444','b']; // confidence has not been instilled ....
 console.log(infix2postfix.evaluate(x));
-y = '(1+2)/3+9';
+y = '(1+2)/3+9*(1/9)';
 z = infix2postfix.evaluate(y); // #iheartjs
 console.log(z.shift());
 console.log(z.shift());
