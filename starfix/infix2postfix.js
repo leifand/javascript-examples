@@ -3,62 +3,66 @@ infix2postfix.js
 leif anderson 12/18/18
 
 Convert an infix expression to postfix and evaluate.
+A basic (hardcoded) compiler.
 
 */
 
 const infix2postfix = {};
 
-infix2postfix.operands = ['+','-','*','/'];
+infix2postfix.operands = ['+','-','*','/','(',')','#'];
 
-infix2postfix.valid_operator = (token) => {
-    return (token in operands);
-}
+infix2postfix.operators = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E'];
 
-infix2postfix.valid_operand = (token) => {
-    return true;
-}
+infix2postfix.valid_operator = (token) => {return infix2postfix.operands.includes(token);}
 
-infix2postfix.infix_priority = (token) => { // rank operands from higest to lowest
-    let pos = 0;
-    for (let i=0;i < operands.length; i++) {
-        if (token == operands[i]) pos = i;
-    }
-    return 5 - pos;
+infix2postfix.valid_operand = (token) => {return infix2postfix.operators.includes(token);}
+
+infix2postfix.infix_priority = (token) => { 
+    let ret = -1;
+    if (token == '*' || token == '/') ret = 2;
+    else if (token == '+' || token == '-') ret = 1;
+    else if (token == '(') ret = 3;
+    else if (token == ')' || token == '#') ret = 0;
+    return ret;
 }
 
 infix2postfix.stack_priority = (token) => {
-    return this.infix_priority(token); // ha ha, this might have consequences
+    let ret = -1;
+    if (token == '*' || token == '/') ret = 2;
+    else if (token == '+' || token == '-') ret = 1;
+    else if (token == '(') ret = 0; // dragons!
+    else if (/*token == ')' || */token == '#') ret = 0; //  !!rparen undefined
+    return ret;    
 }
 
-infix2postfix.evaluate = (expression) => {
+infix2postfix.convert = (expression) => {
     let item, new_token = null;
-    const stack = [];
+    const op_stack = [];
     const queue = [];
-    queue.push('#');
+    op_stack.push('#'); // terminal symbol
     for (let i=0; i < expression.length; i++) {
         new_token = expression[i];
-        console.log(new_token);
         if (infix2postfix.valid_operand(new_token)) {
             queue.push(new_token);
-        } else if (new_token = '(') {
-            item = stack.pop();
-            while (item != ')') {
+        } else if (new_token == ')') {
+            item = op_stack.pop();
+            while (item != '(') {
                 queue.push(item);
-                item = stack.pop();
+                item = op_stack.pop();
             } // end while
-        } else if (new_token = '#') {
-            while (stack.length > 0) {
-                item = stack.pop();
+        } else if (new_token == '#') {
+            while (op_stack.length > 0) {
+                item = op_stack.pop();
                 queue.push(item);
             } // end while
         } else if (infix2postfix.valid_operator(new_token)) {
-            item = stack.pop();
+            item = op_stack.pop();
             while (infix2postfix.stack_priority(item) >= infix2postfix.infix_priority(new_token)) {
                 queue.push(item);
-                item = stack.pop();
+                item = op_stack.pop();
             } // end while
-            stack.push(item);
-            stack.push(new_token);
+            op_stack.push(item);
+            op_stack.push(new_token);
         } else {
             console.log("ERROR: INVALID TOKEN: " + new_token);
         }
@@ -66,12 +70,10 @@ infix2postfix.evaluate = (expression) => {
     return queue; // *magic*
 }
 
-x = ['a','+','44444444444','b']; // confidence has not been instilled ....
-console.log(infix2postfix.evaluate(x));
-y = '(1+2)/3+9*(1/9)';
-z = infix2postfix.evaluate(y); // #iheartjs
-console.log(z.shift());
-console.log(z.shift());
+x = 'A*B+(C-D/E)#';
+y = '(1+2)/3+9*(1/9)#';
+z = infix2postfix.convert(x); // #iheartjs
 console.log(z);
+console.log(infix2postfix.convert(y));
 
 module.exports = infix2postfix;
