@@ -113,7 +113,7 @@ test = infix2postfix.convert(y);
 console.log(test);
 console.log(infix2postfix.evaluate(test));
 
-test2 = infix2postfix.convert('(7*5)-(6/7)*(3+(6/7)-(2/3))');
+test2 = infix2postfix.convert('(7*5)-(6/7)*(3+(6/7)-(2/3))#');
 console.log(test2);
 console.log(infix2postfix.evaluate(test2));
 
