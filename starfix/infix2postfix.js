@@ -9,7 +9,7 @@ A basic (hardcoded) compiler.
 
 const infix2postfix = {};
 
-infix2postfix.operands = ['+','-','*','/','(',')','#'];
+infix2postfix.operands = ['+','-','*','/','(',')'];
 
 infix2postfix.operators = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E'];
 
@@ -70,10 +70,51 @@ infix2postfix.convert = (expression) => {
     return queue; // *magic*
 }
 
+infix2postfix.valueOf = (token) => {
+    for (let i=0; i<infix2postfix.operators.length; i++) {
+        if (token == infix2postfix.operators[i]) return i;
+    }
+    return -1;
+}
+
+infix2postfix.eval = (a, b, oper) => {
+    if (oper == '+') return (a+b);
+    else if (oper == '-') return (a-b);
+    else if (oper == '*') return (a*b);
+    else if (oper == '/') return (a/b);
+    else return -1;
+}
+
+infix2postfix.evaluate = (postfix_expression) => {
+    let token = '';
+    const stack = [];
+    let v1, v2, top = 0.0;
+    for (let i=0; i<postfix_expression.length; i++) {
+        token = postfix_expression[i];
+        if (infix2postfix.valid_operand(token)) {
+            stack.push(infix2postfix.valueOf(token));
+        } else if (token == '#') {
+            return stack.pop();
+        } else {
+            v2 = stack.pop();
+            v1 = stack.pop();
+            stack.push(infix2postfix.eval(v1, v2, token));
+        }
+    }
+    return -1;
+}
+
 x = 'A*B+(C-D/E)#';
 y = '(1+2)/3+9*(1/9)#';
 z = infix2postfix.convert(x); // #iheartjs
 console.log(z);
-console.log(infix2postfix.convert(y));
+
+test = infix2postfix.convert(y);
+console.log(test);
+console.log(infix2postfix.evaluate(test));
+
+test2 = infix2postfix.convert('(7*5)-(6/7)*(3+(6/7)-(2/3))');
+console.log(test2);
+console.log(infix2postfix.evaluate(test2));
 
 module.exports = infix2postfix;
