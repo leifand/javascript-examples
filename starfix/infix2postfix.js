@@ -13,9 +13,9 @@ parser.operands = ['+','-','*','/','(',')'];
 
 parser.operators = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E'];
 
-parser.valid_operator = (token) => {return parser.operands.includes(token);}
+parser.valid_operand = (token) => {return parser.operands.includes(token);}
 
-parser.valid_operand = (token) => {return parser.operators.includes(token);}
+parser.valid_operator = (token) => {return parser.operators.includes(token);}
 
 parser.infix_priority = (token) => { 
     let ret = -1;
@@ -42,7 +42,7 @@ parser.convert = (expression, infix_prec=parser.infix_priority, postfix_prec=par
     op_stack.push('#'); // terminal symbol
     for (let i=0; i < expression.length; i++) {
         new_token = expression[i];
-        if (parser.valid_operand(new_token)) {
+        if (parser.valid_operator(new_token)) {
             queue.push(new_token);
         } else if (new_token == ')') {
             item = op_stack.pop();
@@ -55,7 +55,7 @@ parser.convert = (expression, infix_prec=parser.infix_priority, postfix_prec=par
                 item = op_stack.pop();
                 queue.push(item);
             } // end while
-        } else if (parser.valid_operator(new_token)) {
+        } else if (parser.valid_operand(new_token)) {
             item = op_stack.pop();
             while (postfix_prec(item) >= infix_prec(new_token)) {
                 queue.push(item);
@@ -91,7 +91,7 @@ parser.evaluate = (postfix_expression) => {
     let v1, v2 = 0.0;
     for (let i=0; i<postfix_expression.length; i++) {
         token = postfix_expression[i];
-        if (parser.valid_operand(token)) {
+        if (parser.valid_operator(token)) {
             stack.push(parser.valueOf(token));
         } else if (token == '#') {
             return stack.pop(); // solved via ugly logic
