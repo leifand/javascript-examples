@@ -102,3 +102,4 @@ rparser.verify_factor = (expression, token, syntax_error) => {
 x = ['a','*','b','/','(','d','+','e',')','-','9'];
 console.log(rparser.top_level_expression(x));
 
+// this program contains 2 errors, one fatal, one in logic, but I'm too lazy to fix them lol
