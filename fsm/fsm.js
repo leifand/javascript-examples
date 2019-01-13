@@ -53,6 +53,6 @@ class FSM {
   }
 
   generate_event(event, params=null) {
-    this.event_queue.push([event, params]);
+    this.event_queue.push({'event':event, 'params':params});
   }
 }
