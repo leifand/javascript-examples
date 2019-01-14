@@ -13,25 +13,26 @@ class FSM {
     this.transition_array = [max_transitions];
   }
 
-  hash(in_source_state, in_event) {
+  hash(source_state, event) {
     let i;
-    let where = ((in_event << 8) + in_source_state) % this.max_transitions;
+    let where = ((event << 8) + source_state) % this.max_transitions;
     while ((this.transition_array[(where + i) % this.max_transitions] != -1) && (i < this.max_transitions)) i++;
     if (i >= this.max_transitions) return -1;
     else return this.transition_array[(where + i) % this.max_transitions];
   }
 
-  hash(in_event) {
+  hash(event) {
     let i;
-    let where = ((in_event << 8) + this.current_state) % this.max_transitions;
+    let where = ((event << 8) + this.current_state) % this.max_transitions;
     while ((this.transition_array[(where + i) % this.max_transitions] != -1) && (i < this.max_transitions)) i++;
     if (i >= this.max_transitions) return -1;
     else return this.transition_array[(where + i) % this.max_transitions];
   }
 
   define_transition(source, destination, event, index) {
-    index = hash(source, event);
+    let index = hash(source, event);
     if (index != -1) this.transition_array[index] = {'source':source, 'destination':destination, 'event':event, 'index':index};
+    return index;
   }
 
   control(event, params=null) {
@@ -53,6 +54,6 @@ class FSM {
   }
 
   generate_event(event, params=null) {
-    this.event_queue.push({'event':event, 'params':params});
+    this.event_queue.push({'id':event, 'params':params});
   }
 }
