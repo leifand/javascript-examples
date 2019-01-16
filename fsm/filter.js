@@ -9,7 +9,7 @@ class CommentFilter extends AbsHandler {
         super(num_transitions);
         this.infile = infile;
         this.outfile = outfile;
-        this.ifile = fs.open(this.infile);  // this code is obviously error free ;)
+        this.ifile = fs.readFile(this.infile);  // this code is obviously error free ;)
         this.ofile = fs.open(this.outfile);
         load_handlers();
     }
@@ -24,7 +24,7 @@ class CommentFilter extends AbsHandler {
         this.functions[1] = this.ignore_char;
         this.functions[2] = this.write_char;
         this.functions[3] = this.write_slash;
-        return true;
+        return this;
     }
 
     get_char() {
