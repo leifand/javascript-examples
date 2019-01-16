@@ -38,7 +38,7 @@ class FSM {
   control(event, params=null) {
     let result = false;
     let trans_num = -1;
-    this.event_queue.push([event, params]);
+    this.event_queue.push({'id':event, 'params':params});
     let an_event = this.event_queue.shift;
     while(an_event) {
       if ((trans_num = this.hash(an_event.id)) >= 0) {
