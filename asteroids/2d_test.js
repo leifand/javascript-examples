@@ -6,10 +6,11 @@
 
 // globals
 //
-const px = [0, 32, 28, 20, 12, 4]; // x-points for test polygon
-const py = [0, 8, 16, 20, 16, 24]; // y-points ...
+let px = [0, 32, 28, 20, 12, 4]; // x-points for test polygon
+let py = [0, 8, 16, 20, 16, 24]; // y-points ...
 const arr_len = 6;
-let min_x, min_y = Number.MAX_VALUE;
+let min_x = 100000.0;
+let min_y = 100000.0;
 
 
 // globals!
@@ -35,6 +36,7 @@ window.onload = function(){
 };
 
 function mob() {
+    gc.clearRect(0, 0, 600, 600);
     gc.beginPath();
     for (let i = 0; i < arr_len; i++) {
         gc.lineTo(px[i], py[i]);
@@ -60,8 +62,9 @@ function set_mins() {
 }
 
 function rotate() {
-    //set_mins();
-    //let low_x, low_y = Number.MAX_VALUE;    
+    set_mins();
+    let low_x = 100000.0;
+    let low_y = 100000.0;    
     let t1 = null;
     let t2 = null;
     for (let i = 0; i < arr_len; i++) {
@@ -69,17 +72,28 @@ function rotate() {
         t2 = py[i] * cos - px[i] * sin;
         px[i] = t1;
         py[i] = t2;
-        //low_x = Math.min(low_x, px[i]);
-        //low_y = Math.min(low_y, py[i]);
+        low_x = Math.min(low_x, px[i]);
+        low_y = Math.min(low_y, py[i]);
+        console.log("t1:", t1, " t2:", t2, " low_x:", low_x, " low_y:", low_y);
     }
-    //let off_x = min_x - low_x;
-    //let off_y = min_y - low_y;
-    //console.log(off_x, off_y);
-    //translate(off_x, off_y);
+    let off_x = min_x - low_x;
+    let off_y = min_y - low_y;
+    console.log(off_x, off_y);
+    translate(off_x, off_y);
 };
 
 function draw() {
     mob();
-    translate(5, 5);
+    translate(100,100);
     rotate();
 };
+
+function test() {
+    rotate();
+    console.log('entering 2nd rotation ...');
+    rotate();
+    console.log(px);
+    console.log(py);
+};
+
+//test();
