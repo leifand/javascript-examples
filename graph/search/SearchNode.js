@@ -2,6 +2,9 @@
     SearchNode.js
     leif anderson feb 3 2019
     A node object for exploring graph traversal eg. TSP!
+
+    Ok, rewriting this as SearchGraph and internalizing the searchnode structure.
+    iheartjavascript ha ha
 */
 
 class SearchNode {
@@ -38,9 +41,12 @@ class SearchNode {
     }
 
     expand(queue, position) {
+        console.log("expanding: ", this.label);
         this.expanded = true;
-        for(let i=0; i<this.links.length; i++) {
-            next_node = this.links[i];
+        for(node in this.links) {
+            console.log(this.links);
+            let next_node = node;
+            console.log(node);
             if(!next_node.tested) {
                 next_node.tested = true;
                 next_node.depth += 1;
@@ -66,50 +72,46 @@ class SearchNode {
                 }
             }
         }
+        console.log("finished expanding: ", this.label);
     }
 }
 
 const graph = {};
 
-let node = new SearchNode('Dallas', 'GOAL');
+let node = new SearchNode('Dallas', null);
 
 graph.dallas = node;
 graph.dallas.cost = 0; // Dallas is the starting point ...
+graph.dallas.add_link(graph.midland);
+graph.dallas.add_link(graph.amarillo);
+graph.dallas.add_link(graph.johnsoncity);
 
-node = new SearchNode('El Paso', null);
+node = new SearchNode('El Paso', 'GOAL');
 
 graph.elpaso = node;
 graph.elpaso.cost = 800; // 800 miles from Dallas ...
+graph.elpaso.add_link(graph.midland);
+graph.elpaso.add_link(graph.johnsoncity);
 
 node = new SearchNode('Amarillo', null);
 
 graph.amarillo = node;
 graph.amarillo.cost = 550; 
+graph.amarillo.add_link(graph.midland);
+graph.amarillo.add_link(graph.dallas);
 
 node = new SearchNode('Midland', null);
 
 graph.midland = node;
 graph.midland.cost = 450;
-
-node = new SearchNode('Johnson City', null);
-
-graph.johnsoncity = node;
-graph.johnsoncity.cost = 400;
-
-graph.dallas.add_link(graph.midland);
-graph.dallas.add_link(graph.amarillo);
-graph.dallas.add_link(graph.johnsoncity);
-
-graph.elpaso.add_link(graph.midland);
-graph.elpaso.add_link(graph.johnsoncity);
-
-graph.amarillo.add_link(graph.midland);
-graph.amarillo.add_link(graph.dallas);
-
 graph.midland.add_link(graph.dallas);
 graph.midland.add_link(graph.amarillo);
 graph.midland.add_link(graph.elpaso);
 
+node = new SearchNode('Johnson City', null);
+null
+graph.johnsoncity = node;
+graph.johnsoncity.cost = 400;
 graph.johnsoncity.add_link(graph.dallas);
 graph.johnsoncity.add_link(graph.elpaso);
 
