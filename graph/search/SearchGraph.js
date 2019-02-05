@@ -40,7 +40,10 @@ class SearchGraph {
             }
         }
         for(let j=0; j<this.graph.length; j++) {
-            if(this.graph[j].label == source) this.graph[j].links.push(dest);
+            if(this.graph[j].label == source) {
+                this.graph[j].links.push(dest);
+                break;
+            }
         }
     }
 
@@ -72,11 +75,11 @@ class SearchGraph {
                next_node.depth += 1;
                if(this.position.FRONT == position) {
                    queue.unshift(next_node);
-                   //break;
+                   break;
                }
                if(this.position.BACK == position) {
                    queue.push(next_node);
-                   //break;
+                   break;
                }
                if(this.position.INSERT == position) {
                     let inserted = false;
@@ -89,10 +92,16 @@ class SearchGraph {
                         }
                     }
                     if(!inserted) queue.push(next_node);
-                    // break;
+                    break;
                }
            }
        } 
+    }
+
+    node(label) {
+        for(let i=0; i<this.graph.length; i++) {
+            if(this.graph[i].label == label) return this.graph[i];
+        }
     }
 
     breadth_first(start_node, goal) {
@@ -112,7 +121,7 @@ class SearchGraph {
 
 const graph = new SearchGraph();
 
-graph.add_node('Dallas','Dallas', 0);
+graph.add_node('Dallas','GOAL', 0); // goal
 graph.add_node('Fort Worth', 'Fort Worth', 60);
 graph.add_node('Arlington','Arlington', 30);
 graph.add_node('Plano','Plano', 20);
@@ -123,7 +132,27 @@ graph.add_node('Denton','Denton', 60);
 graph.add_link('Dallas','Arlington');
 graph.add_link('Dallas','Plano');
 graph.add_link('Dallas','Lewisville');
+graph.add_link('Fort Worth','Arlington');
+graph.add_link('Fort Worth','Denton');
+graph.add_link('Fort Worth','Lewisville');
+graph.add_link('Arlington','Dallas');
+graph.add_link('Arlington','Fort Worth');
+graph.add_link('Arlington','Lewisville');
+graph.add_link('Plano','Dallas');
+graph.add_link('Plano','Frisco');
+graph.add_link('Plano','Lewisville');
+graph.add_link('Frisco','Plano');
+graph.add_link('Frisco','Denton');
+graph.add_link('Lewisville','Arlington');
+graph.add_link('Lewisville','Plano');
+graph.add_link('Lewisville','Dallas');
+graph.add_link('Denton','Fort Worth');
+graph.add_link('Denton','Frisco');
+graph.add_link('Denton','Lewisville');
+
+let start = graph.node("Frisco");
+graph.breadth_first(start, 'GOAL');
 
 
-console.log(graph);
-console.log(graph.graph[0].links);
+//console.log(graph);
+//console.log(graph.graph[0].links);
